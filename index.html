@@ -425,6 +425,87 @@ body{
   body{justify-content:flex-start}
 }
 
+
+
+/* Readability enhancement, preserving viewport centering and favicon */
+html{
+  --app-font-size:16px;
+}
+
+/* Larger readable controls with compact internal padding. */
+.segment button,
+.choice,
+.action,
+.circle{
+  font-size:1rem;
+}
+.segment button{
+  min-height:33px;
+  padding:3px 6px;
+}
+.calc-modes button{
+  font-size:.88rem;
+  padding:3px 5px;
+}
+.choice{
+  min-height:38px;
+  padding:4px 7px;
+}
+.action{
+  min-height:33px;
+  padding:4px 13px;
+}
+.circle{
+  padding:0;
+}
+.label,
+.field-label{
+  font-size:.92rem;
+}
+.input{
+  font-size:1rem;
+}
+
+/* Make the frequently scanned CPT context visually prominent. */
+.shared{
+  padding:12px 14px;
+  border-color:rgba(79,70,229,.19);
+  background:linear-gradient(145deg,rgba(238,242,255,.98),rgba(255,255,255,.98));
+  box-shadow:0 6px 18px rgba(79,70,229,.08);
+}
+.shared-title{
+  font-size:.86rem;
+  letter-spacing:.09em;
+}
+.shared-meta{
+  margin-top:7px;
+  color:var(--primary2);
+  font-size:1.22rem;
+  font-weight:750;
+  line-height:1.2;
+  letter-spacing:-.015em;
+}
+.shared-codes{
+  gap:7px;
+  margin-top:10px;
+}
+.mini-code{
+  padding:5px 9px;
+  font-size:1.04rem;
+  font-weight:700;
+}
+.shared .small-action{
+  font-size:.83rem;
+  padding:4px 8px;
+}
+
+@media(max-width:600px){
+  html{--app-font-size:15px}
+  .segment button,.choice,.action,.circle{font-size:.96rem}
+  .shared-meta{font-size:1.13rem}
+  .mini-code{font-size:1rem}
+}
+
 </style>
 </head>
 <body>
