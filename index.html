@@ -428,123 +428,37 @@ body{
 
 
 /* Readability enhancement, preserving viewport centering and favicon */
-html{
-  --app-font-size:16px;
-}
+html{--app-font-size:16px}
+.segment button,.choice,.action,.circle{font-size:1rem}
+.segment button{min-height:33px;padding:3px 6px}
+.calc-modes button{font-size:.88rem;padding:3px 7px;white-space:nowrap}
+.choice{min-height:38px;padding:4px 7px}
+.action{min-height:33px;padding:4px 13px}
+.circle{padding:0}
+.label,.field-label{font-size:.92rem}
+.input{font-size:1rem}
+.shared{padding:12px 14px;border-color:rgba(79,70,229,.19);background:linear-gradient(145deg,rgba(238,242,255,.98),rgba(255,255,255,.98));box-shadow:0 6px 18px rgba(79,70,229,.08)}
+.shared-title{font-size:.86rem;letter-spacing:.09em}
+.shared-meta{margin-top:7px;color:var(--primary2);font-size:1.22rem;font-weight:750;line-height:1.2;letter-spacing:-.015em}
+.shared-codes{gap:7px;margin-top:10px}
+.mini-code{padding:5px 9px;font-size:1.04rem;font-weight:700}
+.shared .small-action{font-size:.83rem;padding:4px 8px}
 
-/* Larger readable controls with compact internal padding. */
-.segment button,
-.choice,
-.action,
-.circle{
-  font-size:1rem;
-}
-.segment button{
-  min-height:33px;
-  padding:3px 6px;
-}
-.calc-modes button{
-  font-size:.88rem;
-  padding:3px 5px;
-}
-.choice{
-  min-height:38px;
-  padding:4px 7px;
-}
-.action{
-  min-height:33px;
-  padding:4px 13px;
-}
-.circle{
-  padding:0;
-}
-.label,
-.field-label{
-  font-size:.92rem;
-}
-.input{
-  font-size:1rem;
-}
+/* Wider calculator mode row so the long label remains on one line. */
+.app{max-width:660px}
+.calc-modes{overflow:visible}
+.calc-modes button[data-value="poc"]{flex:1.45 1 0}
+.calc-modes button[data-value="units"]{flex:1 1 0}
+.calc-modes button[data-value="monthly"]{flex:.95 1 0}
 
-/* Make the frequently scanned CPT context visually prominent. */
-.shared{
-  padding:12px 14px;
-  border-color:rgba(79,70,229,.19);
-  background:linear-gradient(145deg,rgba(238,242,255,.98),rgba(255,255,255,.98));
-  box-shadow:0 6px 18px rgba(79,70,229,.08);
-}
-.shared-title{
-  font-size:.86rem;
-  letter-spacing:.09em;
-}
-.shared-meta{
-  margin-top:7px;
-  color:var(--primary2);
-  font-size:1.22rem;
-  font-weight:750;
-  line-height:1.2;
-  letter-spacing:-.015em;
-}
-.shared-codes{
-  gap:7px;
-  margin-top:10px;
-}
-.mini-code{
-  padding:5px 9px;
-  font-size:1.04rem;
-  font-weight:700;
-}
-.shared .small-action{
-  font-size:.83rem;
-  padding:4px 8px;
-}
-
-@media(max-width:600px){
+@media(max-width:680px){
   html{--app-font-size:15px}
+  .app{max-width:calc(100% - 10px)}
   .segment button,.choice,.action,.circle{font-size:.96rem}
   .shared-meta{font-size:1.13rem}
   .mini-code{font-size:1rem}
-}
-
-
-
-/* Give the calculator mode labels enough horizontal room without shrinking the text. */
-.app{
-  max-width:660px;
-}
-.calc-modes{
-  overflow:visible;
-}
-.calc-modes button{
-  white-space:nowrap;
-  font-size:.88rem;
-  padding-left:7px;
-  padding-right:7px;
-}
-.calc-modes button[data-value="poc"]{
-  flex:1.45 1 0;
-}
-.calc-modes button[data-value="units"]{
-  flex:1 1 0;
-}
-.calc-modes button[data-value="monthly"]{
-  flex:.95 1 0;
-}
-
-@media(max-width:680px){
-  .app{
-    max-width:calc(100% - 10px);
-  }
-  .calc-modes{
-    overflow-x:auto;
-    scrollbar-width:thin;
-  }
-  .calc-modes button{
-    flex:0 0 auto;
-    min-width:max-content;
-    padding-left:10px;
-    padding-right:10px;
-  }
+  .calc-modes{overflow-x:auto;scrollbar-width:thin}
+  .calc-modes button{flex:0 0 auto;min-width:max-content;padding-left:10px;padding-right:10px}
 }
 
 </style>
@@ -567,13 +481,13 @@ const dme={'SPLINTS':{codes:['97760','97165','97166','97167'],primary:['97760'],
 const state={tool:'calculator',calc:'poc',lookup:'therapy',discipline:'PT',service:'EVALS',dme:'SPLINTS',duration:30,selected:[]};
 function pos(seg,animate=true){const t=seg.querySelector('.track'),a=seg.querySelector('button.active');if(!t||!a)return;if(!animate)t.style.transition='none';t.style.left=a.offsetLeft+'px';t.style.width=a.offsetWidth+'px';if(!animate){t.getBoundingClientRect();t.style.transition=''}}
 function segment(id,callback){const s=document.getElementById(id);s.querySelectorAll('button').forEach(b=>b.onclick=()=>{s.querySelectorAll('button').forEach(x=>x.classList.toggle('active',x===b));pos(s,true);callback(b.dataset.value)});requestAnimationFrame(()=>pos(s,false))}
-segment('toolTabs',v=>showTool(v));segment('calcModes',v=>showCalc(v));segment('lookupMode',v=>{state.lookup=v;document.getElementById('therapyLookup').classList.toggle('hidden',v!=='therapy');document.getElementById('dmeLookup').classList.toggle('hidden',v!=='dme');renderLookup()});segment('discipline',v=>{state.discipline=v;const services=Object.keys(therapy[v]);if(!services.includes(state.service))state.service=services.includes('TX')&&state.service.includes('TX')?'TX':services[0];renderServices();renderLookup()});segment('lookupDuration',v=>{state.duration=Number(v);renderLookup()});
+segment('toolTabs',v=>showTool(v));segment('calcModes',v=>showCalc(v));segment('lookupMode',v=>{state.lookup=v;state.selected=[];document.getElementById('therapyLookup').classList.toggle('hidden',v!=='therapy');document.getElementById('dmeLookup').classList.toggle('hidden',v!=='dme');renderLookup()});segment('discipline',v=>{state.discipline=v;const services=Object.keys(therapy[v]);if(!services.includes(state.service))state.service=services.includes('TX')&&state.service.includes('TX')?'TX':services[0];state.selected=[];renderServices();renderLookup()});segment('lookupDuration',v=>{state.duration=Number(v);renderLookup()});
 function showTool(v){state.tool=v;document.getElementById('calculatorPanel').classList.toggle('hidden',v!=='calculator');document.getElementById('lookupPanel').classList.toggle('hidden',v!=='lookup');requestAnimationFrame(()=>document.querySelectorAll('.segment:not(.hidden)').forEach(s=>pos(s,false)))}
 function showCalc(v){state.calc=v;['poc','units','monthly'].forEach(x=>document.getElementById(x+'Mode').classList.toggle('hidden',x!==v));requestAnimationFrame(()=>pos(document.getElementById('calcModes'),false))}
 document.getElementById('editLookup').onclick=()=>{document.querySelector('#toolTabs button[data-value="lookup"]').click()};
 function choice(label,active,fn){const b=document.createElement('button');b.className='choice'+(active?' active':'');b.textContent=label;b.onclick=fn;return b}
-function renderServices(){const c=document.getElementById('therapyChoices');c.innerHTML='';Object.keys(therapy[state.discipline]).forEach(k=>c.appendChild(choice(k,k===state.service,()=>{state.service=k;renderServices();renderLookup()})))}
-function renderDme(){const c=document.getElementById('dmeChoices');c.innerHTML='';Object.keys(dme).forEach(k=>c.appendChild(choice(k,k===state.dme,()=>{state.dme=k;renderDme();renderLookup()})))}
+function renderServices(){const c=document.getElementById('therapyChoices');c.innerHTML='';Object.keys(therapy[state.discipline]).forEach(k=>c.appendChild(choice(k,k===state.service,()=>{state.service=k;state.selected=[];renderServices();renderLookup()})))}
+function renderDme(){const c=document.getElementById('dmeChoices');c.innerHTML='';Object.keys(dme).forEach(k=>c.appendChild(choice(k,k===state.dme,()=>{state.dme=k;state.selected=[];renderDme();renderLookup()})))}
 function result(){if(state.lookup==='therapy'){const r=therapy[state.discipline][state.service];let units=r.type==='eval'?1:(state.discipline==='ST'?1:(state.duration===60?4:2));return{...r,title:state.discipline+' · '+state.service,units,meta:state.discipline+' · '+state.service+(r.type==='tx'?' · '+state.duration+' Minutes':'')}}const r=dme[state.dme];return{...r,title:state.dme,meta:state.dme}}
 function renderLookup(){const r=result(),isTx=state.lookup==='therapy'&&r.type==='tx';document.getElementById('durationWrap').classList.toggle('hidden',!isTx);if(isTx)requestAnimationFrame(()=>requestAnimationFrame(()=>pos(document.getElementById('lookupDuration'),true)));const valid=state.selected.filter(x=>r.codes.includes(x));state.selected=valid.length?valid:[...(r.primary?.length?r.primary:[r.codes[0]])];document.getElementById('lookupTitle').textContent=r.title;document.getElementById('lookupUnits').textContent=r.units?r.units+' '+(r.units===1?'Unit':'Units'):'Not specified';document.getElementById('lookupNote').textContent='Select the CPT codes you want carried into the calculator.';const c=document.getElementById('codeChoices');c.innerHTML='';r.codes.forEach(code=>{const b=document.createElement('button'),primary=(r.primary||[]).includes(code),selected=state.selected.includes(code);b.className='code'+(primary?' primary':'')+(selected?' selected':'');b.textContent=code;if(selected){const x=document.createElement('span');x.className='check';x.textContent='✓';b.appendChild(x)}if(primary){const x=document.createElement('span');x.className='badge';x.textContent='Primary';b.appendChild(x)}b.onclick=()=>{state.selected=selected?state.selected.filter(x=>x!==code):[...state.selected,code];renderLookup()};c.appendChild(b)});renderShared()}
 function renderShared(){const r=result();document.getElementById('sharedMeta').textContent=r.meta+' · '+(r.units?r.units+' '+(r.units===1?'Unit':'Units'):'Units not specified');const c=document.getElementById('sharedCodes');c.innerHTML='';if(!state.selected.length){c.innerHTML='<span class="empty">No CPT codes selected</span>';return}state.selected.forEach(code=>{const s=document.createElement('span');s.className='mini-code'+((r.primary||[]).includes(code)?' primary':'');s.textContent=code;c.appendChild(s)})}
