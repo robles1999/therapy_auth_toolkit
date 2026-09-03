@@ -506,6 +506,47 @@ html{
   .mini-code{font-size:1rem}
 }
 
+
+
+/* Give the calculator mode labels enough horizontal room without shrinking the text. */
+.app{
+  max-width:660px;
+}
+.calc-modes{
+  overflow:visible;
+}
+.calc-modes button{
+  white-space:nowrap;
+  font-size:.88rem;
+  padding-left:7px;
+  padding-right:7px;
+}
+.calc-modes button[data-value="poc"]{
+  flex:1.45 1 0;
+}
+.calc-modes button[data-value="units"]{
+  flex:1 1 0;
+}
+.calc-modes button[data-value="monthly"]{
+  flex:.95 1 0;
+}
+
+@media(max-width:680px){
+  .app{
+    max-width:calc(100% - 10px);
+  }
+  .calc-modes{
+    overflow-x:auto;
+    scrollbar-width:thin;
+  }
+  .calc-modes button{
+    flex:0 0 auto;
+    min-width:max-content;
+    padding-left:10px;
+    padding-right:10px;
+  }
+}
+
 </style>
 </head>
 <body>
