@@ -426,9 +426,11 @@ body{
 }
 
 
-
-/* Readability enhancement, preserving viewport centering and favicon */
+/* =========================================================
+   READABLE, SECTIONED WORKSPACE
+   ========================================================= */
 html{--app-font-size:16px}
+.app{max-width:660px}
 .segment button,.choice,.action,.circle{font-size:1rem}
 .segment button{min-height:33px;padding:3px 6px}
 .calc-modes button{font-size:.88rem;padding:3px 7px;white-space:nowrap}
@@ -437,19 +439,87 @@ html{--app-font-size:16px}
 .circle{padding:0}
 .label,.field-label{font-size:.92rem}
 .input{font-size:1rem}
-.shared{padding:12px 14px;border-color:rgba(79,70,229,.19);background:linear-gradient(145deg,rgba(238,242,255,.98),rgba(255,255,255,.98));box-shadow:0 6px 18px rgba(79,70,229,.08)}
+
+/* Shared visual language for each step/card. */
+#lookupPanel>.field,
+#therapyLookup>.field,
+#dmeLookup>.field,
+#durationWrap,
+#pocMode>.grid2:first-child,
+#unitsMode>.grid2,
+#monthlyMode>.field:first-child{
+  padding:12px;
+  border:1px solid rgba(99,102,241,.11);
+  border-radius:15px;
+  background:linear-gradient(180deg,rgba(248,250,252,.98),rgba(255,255,255,.99));
+  box-shadow:0 5px 15px rgba(30,41,59,.05);
+}
+
+/* Give nested lookup steps breathing room. */
+#therapyLookup,
+#dmeLookup{
+  gap:11px;
+}
+#lookupPanel{
+  gap:12px;
+}
+#lookupPanel>.field .label,
+#therapyLookup>.field .label,
+#dmeLookup>.field .label,
+#durationWrap>.label{
+  margin-bottom:3px;
+  color:#334155;
+  font-weight:700;
+}
+
+/* Calculator selection cards are clearly separated peers. */
+.selection-cards{gap:10px}
+.selection-card{
+  padding:12px;
+  border-color:rgba(99,102,241,.12);
+  border-radius:15px;
+  background:linear-gradient(180deg,rgba(248,250,252,.98),#fff);
+  box-shadow:0 5px 15px rgba(30,41,59,.05);
+}
+.selection-card .label{
+  margin-bottom:5px;
+  color:#334155;
+  font-weight:700;
+}
+
+/* Calculator mode navigation gets its own visual divider. */
+.calc-modes{
+  margin-top:1px;
+  margin-bottom:2px;
+  overflow:visible;
+  box-shadow:inset 0 1px 2px rgba(15,23,42,.04),0 5px 14px rgba(30,41,59,.045);
+}
+.calc-modes button[data-value="poc"]{flex:1.45 1 0}
+.calc-modes button[data-value="units"]{flex:1 1 0}
+.calc-modes button[data-value="monthly"]{flex:.95 1 0}
+
+/* Stronger persistent CPT context. */
+.shared{
+  padding:12px 14px;
+  border-color:rgba(79,70,229,.2);
+  border-radius:16px;
+  background:linear-gradient(145deg,rgba(238,242,255,.98),rgba(255,255,255,.99));
+  box-shadow:0 7px 20px rgba(79,70,229,.09);
+}
 .shared-title{font-size:.86rem;letter-spacing:.09em}
 .shared-meta{margin-top:7px;color:var(--primary2);font-size:1.22rem;font-weight:750;line-height:1.2;letter-spacing:-.015em}
 .shared-codes{gap:7px;margin-top:10px}
 .mini-code{padding:5px 9px;font-size:1.04rem;font-weight:700}
 .shared .small-action{font-size:.83rem;padding:4px 8px}
 
-/* Wider calculator mode row so the long label remains on one line. */
-.app{max-width:660px}
-.calc-modes{overflow:visible}
-.calc-modes button[data-value="poc"]{flex:1.45 1 0}
-.calc-modes button[data-value="units"]{flex:1 1 0}
-.calc-modes button[data-value="monthly"]{flex:.95 1 0}
+/* More separation before results and actions. */
+.action-row{padding-top:2px}
+.results{margin-top:1px}
+.lookup-result{
+  padding:15px;
+  border-radius:17px;
+  box-shadow:0 7px 20px rgba(79,70,229,.06);
+}
 
 @media(max-width:680px){
   html{--app-font-size:15px}
@@ -459,6 +529,226 @@ html{--app-font-size:16px}
   .mini-code{font-size:1rem}
   .calc-modes{overflow-x:auto;scrollbar-width:thin}
   .calc-modes button{flex:0 0 auto;min-width:max-content;padding-left:10px;padding-right:10px}
+  #lookupPanel>.field,#therapyLookup>.field,#dmeLookup>.field,#durationWrap,#pocMode>.grid2:first-child,#unitsMode>.grid2,#monthlyMode>.field:first-child,.selection-card{padding:10px}
+}
+
+
+
+/* =========================================================
+   SOLID-COLOR PROFESSIONAL THEME
+   Visual-only overrides. Layout, spacing, centering, and logic are unchanged.
+   ========================================================= */
+:root{
+  --bg:#eef2f7;
+  --card:#ffffff;
+  --text:#172033;
+  --muted:#566477;
+  --primary:#4f46e5;
+  --primary2:#4338ca;
+  --border:#dbe2ea;
+  --green:#39735a;
+  --shadow:0 16px 38px rgba(30,41,59,.12);
+}
+
+body{
+  background:var(--bg);
+}
+
+.app{
+  background:#ffffff;
+  border-color:#d7dee8;
+  box-shadow:var(--shadow);
+}
+
+.stripe{
+  background:var(--primary);
+}
+
+header{
+  background:#f4f5ff;
+  border-bottom-color:#d9def2;
+}
+
+.icon{
+  background:var(--primary);
+  box-shadow:0 7px 16px rgba(79,70,229,.18);
+}
+
+.segment{
+  background:#e9edf3;
+  border-color:#d7dee7;
+  box-shadow:none;
+}
+
+.track{
+  background:var(--primary);
+  box-shadow:0 4px 10px rgba(79,70,229,.16);
+}
+
+.segment button{
+  background:transparent;
+}
+
+.input{
+  background:#ffffff;
+  border-color:#d9e0e8;
+}
+
+.circle,
+.choice,
+.small-action,
+.mini-code,
+.code{
+  background:#ffffff;
+  border-color:#d9e0e8;
+}
+
+.circle.active,
+.choice.active,
+.action{
+  background:var(--primary);
+  border-color:var(--primary);
+  box-shadow:0 5px 12px rgba(79,70,229,.16);
+}
+
+/* Solid grouped sections */
+#lookupPanel>.field,
+#therapyLookup>.field,
+#dmeLookup>.field,
+#durationWrap,
+#pocMode>.grid2:first-child,
+#unitsMode>.grid2,
+#monthlyMode>.field:first-child,
+.selection-card{
+  background:#f7f9fc;
+  border-color:#dce3eb;
+  box-shadow:0 3px 10px rgba(30,41,59,.045);
+}
+
+/* Solid current-selection context */
+.shared{
+  background:#eef0ff;
+  border-color:#cfd4f6;
+  box-shadow:0 5px 15px rgba(79,70,229,.08);
+}
+
+.shared-meta{
+  color:var(--primary2);
+}
+
+.mini-code.primary,
+.code.primary{
+  background:#edf8f1;
+  border-color:#bcdcc8;
+  box-shadow:0 4px 12px rgba(48,135,82,.12);
+}
+
+.code.primary.selected{
+  outline-color:#3b8d5e;
+}
+
+.lookup-result{
+  background:#f5f6ff;
+  border-color:#d7dbf5;
+  box-shadow:0 5px 15px rgba(79,70,229,.055);
+}
+
+.stat{
+  background:#f8fafc;
+  border-color:#dce3eb;
+}
+
+footer{
+  background:rgba(238,242,247,.96);
+  border-top-color:#d8e0e8;
+}
+
+
+
+/* Stronger section-card contrast */
+#lookupPanel>.field,
+#therapyLookup>.field,
+#dmeLookup>.field,
+#durationWrap,
+#pocMode>.grid2:first-child,
+#unitsMode>.grid2,
+#monthlyMode>.field:first-child,
+.selection-card{
+  background:#e9eef5;
+  border-color:#c7d1dd;
+  box-shadow:0 4px 12px rgba(30,41,59,.07);
+}
+
+/* Slightly stronger distinction for nested controls inside cards. */
+.selection-card .number-grid,
+#lookupPanel>.field .segment,
+#therapyLookup>.field .segment,
+#durationWrap .segment{
+  background:#dde4ed;
+}
+
+/* Keep the current CPT selection as the strongest context card. */
+.shared{
+  background:#e1e5ff;
+  border-color:#b9c1ef;
+  box-shadow:0 6px 17px rgba(79,70,229,.11);
+}
+
+.lookup-result{
+  background:#e9ebfb;
+  border-color:#c8cdef;
+}
+
+.stat{
+  background:#edf1f6;
+  border-color:#cbd4df;
+}
+
+
+
+/* Center-focused lookup and calculator summary refinements */
+#lookupPanel>.field>.label,
+#therapyLookup>.field>.label,
+#dmeLookup>.field>.label,
+#durationWrap>.label{
+  width:100%;
+  margin-bottom:5px;
+  text-align:center;
+}
+
+/* Center the complete Current CPT Selection card. */
+.shared{
+  text-align:center;
+}
+.shared-head{
+  justify-content:center;
+}
+.shared-title{
+  width:100%;
+  text-align:center;
+}
+.shared-meta{
+  text-align:center;
+}
+.shared-codes{
+  justify-content:center;
+}
+
+/* Remove the gray panel directly behind circular selection buttons.
+   Keep the surrounding section cards for visual separation. */
+.selection-card .number-grid{
+  padding:2px 0;
+  background:transparent;
+}
+.selection-card{
+  background:#eef2f7;
+}
+.selection-card .circle{
+  background:#ffffff;
+}
+.selection-card .circle.active{
+  color:#ffffff;
+  background:var(--primary);
 }
 
 </style>
@@ -467,7 +757,7 @@ html{--app-font-size:16px}
 <div class="app"><div class="stripe"></div><header><div class="title"><div class="icon">✦</div><div><h1>Therapy Authorization Toolkit</h1><p class="sub">Authorization calculations, CPT lookup, and unit references in one app.</p></div></div><div class="segment tool-tabs" id="toolTabs"><div class="track"></div><button class="active" data-value="calculator">Authorization Calculator</button><button data-value="lookup">CPT & Units Lookup</button></div></header>
 <main>
 <section id="calculatorPanel" class="panel">
-<div class="shared"><div class="shared-head"><div class="shared-title">Current CPT Selection</div><button class="small-action" id="editLookup">Edit Lookup</button></div><div id="sharedMeta" class="shared-meta">PT · EVALS · 1 Unit</div><div id="sharedCodes" class="shared-codes"></div></div>
+<div class="shared"><div class="shared-head"><div class="shared-title">Current CPT Selection</div></div><div id="sharedMeta" class="shared-meta">PT · EVALS · 1 Unit</div><div id="sharedCodes" class="shared-codes"></div></div>
 <div class="segment calc-modes" id="calcModes"><div class="track"></div><button class="active" data-value="poc">Units from POC Date Range</button><button data-value="units">Visits from Units</button><button data-value="monthly">Monthly Visits</button></div>
 <div id="pocMode" class="panel"><div class="grid2"><div class="field"><div class="label">Start Date <small>(MMDDYY)</small></div><input id="startDate" class="input" inputmode="numeric" placeholder="MMDDYY"><div id="startDateErr" class="error"></div></div><div class="field"><div class="label">End Date <small>(MMDDYY)</small></div><input id="endDate" class="input" inputmode="numeric" placeholder="MMDDYY"><div id="endDateErr" class="error"></div></div></div><div class="grid2 selection-cards"><div class="field selection-card"><div class="label">Visits per Week</div><div class="number-grid" id="vpw"></div></div><div class="field selection-card"><div class="label">Duration per Visit</div><div class="number-grid" id="pocDuration"></div></div></div><div class="action-row"><button class="action" id="calcPoc">Calculate</button></div><div id="pocResults" class="results"><div class="stats"><div class="stat"><span>Total weeks</span><strong id="weeksOut">—</strong></div><div class="stat"><span>Total visits</span><strong id="visitsOut">—</strong></div><div class="stat"><span>Total units</span><strong id="unitsOut">—</strong></div></div></div></div>
 <div id="unitsMode" class="panel hidden"><div class="grid2"><div class="field"><div class="label">Number of Units Given</div><input id="unitsGiven" class="input" type="number" min="0" placeholder="e.g., 36"></div><div class="field"><div class="label">Duration per Visit</div><select id="unitsDuration" class="input"><option value="">Select</option><option>30</option><option>45</option><option>60</option><option>90</option></select></div></div><div class="action-row"><button class="action" id="calcUnits">Calculate</button></div><div id="unitsResults" class="results"><div class="stats"><div class="stat" style="grid-column:1/-1"><span>Total visits</span><strong id="visitsFromUnits">—</strong></div></div></div></div>
@@ -484,7 +774,7 @@ function segment(id,callback){const s=document.getElementById(id);s.querySelecto
 segment('toolTabs',v=>showTool(v));segment('calcModes',v=>showCalc(v));segment('lookupMode',v=>{state.lookup=v;state.selected=[];document.getElementById('therapyLookup').classList.toggle('hidden',v!=='therapy');document.getElementById('dmeLookup').classList.toggle('hidden',v!=='dme');renderLookup()});segment('discipline',v=>{state.discipline=v;const services=Object.keys(therapy[v]);if(!services.includes(state.service))state.service=services.includes('TX')&&state.service.includes('TX')?'TX':services[0];state.selected=[];renderServices();renderLookup()});segment('lookupDuration',v=>{state.duration=Number(v);renderLookup()});
 function showTool(v){state.tool=v;document.getElementById('calculatorPanel').classList.toggle('hidden',v!=='calculator');document.getElementById('lookupPanel').classList.toggle('hidden',v!=='lookup');requestAnimationFrame(()=>document.querySelectorAll('.segment:not(.hidden)').forEach(s=>pos(s,false)))}
 function showCalc(v){state.calc=v;['poc','units','monthly'].forEach(x=>document.getElementById(x+'Mode').classList.toggle('hidden',x!==v));requestAnimationFrame(()=>pos(document.getElementById('calcModes'),false))}
-document.getElementById('editLookup').onclick=()=>{document.querySelector('#toolTabs button[data-value="lookup"]').click()};
+
 function choice(label,active,fn){const b=document.createElement('button');b.className='choice'+(active?' active':'');b.textContent=label;b.onclick=fn;return b}
 function renderServices(){const c=document.getElementById('therapyChoices');c.innerHTML='';Object.keys(therapy[state.discipline]).forEach(k=>c.appendChild(choice(k,k===state.service,()=>{state.service=k;state.selected=[];renderServices();renderLookup()})))}
 function renderDme(){const c=document.getElementById('dmeChoices');c.innerHTML='';Object.keys(dme).forEach(k=>c.appendChild(choice(k,k===state.dme,()=>{state.dme=k;state.selected=[];renderDme();renderLookup()})))}
@@ -496,7 +786,7 @@ function buttons(id,values,key){const c=document.getElementById(id);values.forEa
 buttons('vpw',[1,2,3,4,5],'vpw');buttons('pocDuration',[30,45,60,90],'pocDuration');buttons('vpm',[1,2,3,4,5],'vpm');buttons('monthlyDuration',[30,45,60,90],'monthlyDuration');buttons('months',[1,2,3,4,5,6,7,8,9,10,11,12],'months');
 function mask(el){el.addEventListener('input',()=>{const d=el.value.replace(/\D/g,'').slice(0,6);el.value=d.length<=2?d:d.length<=4?d.slice(0,2)+'/'+d.slice(2):d.slice(0,2)+'/'+d.slice(2,4)+'/'+d.slice(4)})}mask(document.getElementById('startDate'));mask(document.getElementById('endDate'));
 function dateFrom(v){const d=v.replace(/\D/g,'');if(d.length!==6)return null;const m=+d.slice(0,2),day=+d.slice(2,4),yy=+d.slice(4),y=yy<=49?2000+yy:1900+yy;if(m<1||m>12||day<1||day>new Date(y,m,0).getDate())return null;return new Date(y,m-1,day)}
-document.getElementById('calcPoc').onclick=()=>{const s=dateFrom(startDate.value),e=dateFrom(endDate.value);startDate.classList.toggle('invalid',!s);endDate.classList.toggle('invalid',!e||s&&e<=s);startDateErr.textContent=s?'':'Enter a valid MMDDYY date.';endDateErr.textContent=!e?'Enter a valid MMDDYY date.':s&&e<=s?'End date must be after start date.':'';if(!s||!e||e<=s||!state.vpw||!state.pocDuration){if(!state.vpw||!state.pocDuration)alert('Select visits per week and duration.');return}const weeks=Math.round((e-s)/(86400000*7)),visits=Math.round(weeks*state.vpw),units=Math.round(visits*(state.pocDuration/15));weeksOut.textContent=weeks;visitsOut.textContent=visits;unitsOut.textContent=units;pocResults.style.display='block'};
+document.getElementById('calcPoc').onclick=()=>{const s=dateFrom(startDate.value),e=dateFrom(endDate.value);startDate.classList.toggle('invalid',!s);endDate.classList.toggle('invalid',!e||s&&e<=s);startDateErr.textContent=s?'':'Enter a valid MMDDYY date.';endDateErr.textContent=!e?'Enter a valid MMDDYY date.':s&&e<=s?'End date must be after start date.':'';if(!s||!e||e<=s||!state.vpw||!state.pocDuration){if(!state.vpw||!state.pocDuration)alert('Select visits per week and duration.');return}const weeks=Math.round((e-s)/(86400000*7)),visits=Math.max(1,Math.round(weeks*state.vpw)),units=Math.round(visits*(state.pocDuration/15));weeksOut.textContent=weeks;visitsOut.textContent=visits;unitsOut.textContent=units;pocResults.style.display='block'};
 document.getElementById('calcUnits').onclick=()=>{const u=+unitsGiven.value,d=+unitsDuration.value;if(!u||!d){alert('Enter units and select duration.');return}visitsFromUnits.textContent=Math.round(u/(d/15));unitsResults.style.display='block'};
 document.getElementById('calcMonthly').onclick=()=>{if(!state.months||!state.vpm||!state.monthlyDuration){alert('Select months, visits per month, and duration.');return}const visits=state.months*state.vpm;monthsOut.textContent=state.months;monthlyVisitsOut.textContent=visits;monthlyUnitsOut.textContent=Math.round(visits*(state.monthlyDuration/15));monthlyResults.style.display='block'};
 window.addEventListener('resize',()=>document.querySelectorAll('.segment').forEach(s=>pos(s,false)));renderServices();renderDme();renderLookup();renderShared();
