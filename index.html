@@ -751,13 +751,75 @@ footer{
   background:var(--primary);
 }
 
+
+
+/* Current CPT Selection content hierarchy only */
+.shared-meta{
+  margin-top:7px;
+  color:var(--primary2);
+  font-size:1.32rem;
+  font-weight:800;
+  line-height:1.2;
+  text-align:center;
+}
+.shared-detail{
+  margin-top:5px;
+  color:var(--muted);
+  font-size:.9rem;
+  font-weight:550;
+  line-height:1.25;
+  text-align:center;
+}
+.shared-codes{
+  justify-content:center;
+  margin-top:10px;
+}
+.mini-code{
+  padding:7px 12px;
+  border-radius:10px;
+  font-size:1.3rem;
+  font-weight:800;
+  line-height:1;
+}
+@media(max-width:680px){
+  .shared-meta{font-size:1.2rem}
+  .shared-detail{font-size:.86rem}
+  .mini-code{padding:6px 10px;font-size:1.18rem}
+}
+
+
+
+/* Slightly larger and closer calculator selection buttons */
+.selection-card{
+  --selection-circle-size:36px;
+  --selection-grid-gap:2px;
+}
+.selection-card .number-grid{
+  gap:var(--selection-grid-gap);
+}
+.selection-card .circle{
+  width:var(--selection-circle-size);
+  max-width:var(--selection-circle-size);
+  min-width:var(--selection-circle-size);
+  height:var(--selection-circle-size);
+  padding:2px;
+  font-size:inherit;
+}
+
+@media(max-width:680px){
+  .selection-card{
+    --selection-circle-size:34px;
+    --selection-grid-gap:2px;
+  }
+}
+
 </style>
 </head>
 <body>
 <div class="app"><div class="stripe"></div><header><div class="title"><div class="icon">✦</div><div><h1>Therapy Authorization Toolkit</h1><p class="sub">Authorization calculations, CPT lookup, and unit references in one app.</p></div></div><div class="segment tool-tabs" id="toolTabs"><div class="track"></div><button class="active" data-value="calculator">Authorization Calculator</button><button data-value="lookup">CPT & Units Lookup</button></div></header>
 <main>
 <section id="calculatorPanel" class="panel">
-<div class="shared"><div class="shared-head"><div class="shared-title">Current CPT Selection</div></div><div id="sharedMeta" class="shared-meta">PT · EVALS · 1 Unit</div><div id="sharedCodes" class="shared-codes"></div></div>
+<div class="shared"><div class="shared-head"><div class="shared-title">Current CPT Selection</div></div><div id="sharedMeta" class="shared-meta">PT · EVALS</div><div id="sharedDetail" class="shared-detail">1 Unit</div><div id="sharedCodes" class="shared-codes"></div></div>
 <div class="segment calc-modes" id="calcModes"><div class="track"></div><button class="active" data-value="poc">Units from POC Date Range</button><button data-value="units">Visits from Units</button><button data-value="monthly">Monthly Visits</button></div>
 <div id="pocMode" class="panel"><div class="grid2"><div class="field"><div class="label">Start Date <small>(MMDDYY)</small></div><input id="startDate" class="input" inputmode="numeric" placeholder="MMDDYY"><div id="startDateErr" class="error"></div></div><div class="field"><div class="label">End Date <small>(MMDDYY)</small></div><input id="endDate" class="input" inputmode="numeric" placeholder="MMDDYY"><div id="endDateErr" class="error"></div></div></div><div class="grid2 selection-cards"><div class="field selection-card"><div class="label">Visits per Week</div><div class="number-grid" id="vpw"></div></div><div class="field selection-card"><div class="label">Duration per Visit</div><div class="number-grid" id="pocDuration"></div></div></div><div class="action-row"><button class="action" id="calcPoc">Calculate</button></div><div id="pocResults" class="results"><div class="stats"><div class="stat"><span>Total weeks</span><strong id="weeksOut">—</strong></div><div class="stat"><span>Total visits</span><strong id="visitsOut">—</strong></div><div class="stat"><span>Total units</span><strong id="unitsOut">—</strong></div></div></div></div>
 <div id="unitsMode" class="panel hidden"><div class="grid2"><div class="field"><div class="label">Number of Units Given</div><input id="unitsGiven" class="input" type="number" min="0" placeholder="e.g., 36"></div><div class="field"><div class="label">Duration per Visit</div><select id="unitsDuration" class="input"><option value="">Select</option><option>30</option><option>45</option><option>60</option><option>90</option></select></div></div><div class="action-row"><button class="action" id="calcUnits">Calculate</button></div><div id="unitsResults" class="results"><div class="stats"><div class="stat" style="grid-column:1/-1"><span>Total visits</span><strong id="visitsFromUnits">—</strong></div></div></div></div>
@@ -780,7 +842,7 @@ function renderServices(){const c=document.getElementById('therapyChoices');c.in
 function renderDme(){const c=document.getElementById('dmeChoices');c.innerHTML='';Object.keys(dme).forEach(k=>c.appendChild(choice(k,k===state.dme,()=>{state.dme=k;state.selected=[];renderDme();renderLookup()})))}
 function result(){if(state.lookup==='therapy'){const r=therapy[state.discipline][state.service];let units=r.type==='eval'?1:(state.discipline==='ST'?1:(state.duration===60?4:2));return{...r,title:state.discipline+' · '+state.service,units,meta:state.discipline+' · '+state.service+(r.type==='tx'?' · '+state.duration+' Minutes':'')}}const r=dme[state.dme];return{...r,title:state.dme,meta:state.dme}}
 function renderLookup(){const r=result(),isTx=state.lookup==='therapy'&&r.type==='tx';document.getElementById('durationWrap').classList.toggle('hidden',!isTx);if(isTx)requestAnimationFrame(()=>requestAnimationFrame(()=>pos(document.getElementById('lookupDuration'),true)));const valid=state.selected.filter(x=>r.codes.includes(x));state.selected=valid.length?valid:[...(r.primary?.length?r.primary:[r.codes[0]])];document.getElementById('lookupTitle').textContent=r.title;document.getElementById('lookupUnits').textContent=r.units?r.units+' '+(r.units===1?'Unit':'Units'):'Not specified';document.getElementById('lookupNote').textContent='Select the CPT codes you want carried into the calculator.';const c=document.getElementById('codeChoices');c.innerHTML='';r.codes.forEach(code=>{const b=document.createElement('button'),primary=(r.primary||[]).includes(code),selected=state.selected.includes(code);b.className='code'+(primary?' primary':'')+(selected?' selected':'');b.textContent=code;if(selected){const x=document.createElement('span');x.className='check';x.textContent='✓';b.appendChild(x)}if(primary){const x=document.createElement('span');x.className='badge';x.textContent='Primary';b.appendChild(x)}b.onclick=()=>{state.selected=selected?state.selected.filter(x=>x!==code):[...state.selected,code];renderLookup()};c.appendChild(b)});renderShared()}
-function renderShared(){const r=result();document.getElementById('sharedMeta').textContent=r.meta+' · '+(r.units?r.units+' '+(r.units===1?'Unit':'Units'):'Units not specified');const c=document.getElementById('sharedCodes');c.innerHTML='';if(!state.selected.length){c.innerHTML='<span class="empty">No CPT codes selected</span>';return}state.selected.forEach(code=>{const s=document.createElement('span');s.className='mini-code'+((r.primary||[]).includes(code)?' primary':'');s.textContent=code;c.appendChild(s)})}
+function renderShared(){const r=result();document.getElementById('sharedMeta').textContent=r.title;let detail='';if(state.lookup==='therapy'&&r.type==='tx')detail=state.duration+' Minutes · ';detail+=r.units?r.units+' '+(r.units===1?'Unit':'Units'):'Units not specified';document.getElementById('sharedDetail').textContent=detail;const c=document.getElementById('sharedCodes');c.innerHTML='';if(!state.selected.length){c.innerHTML='<span class="empty">No CPT codes selected</span>';return}state.selected.forEach(code=>{const chip=document.createElement('span');chip.className='mini-code'+((r.primary||[]).includes(code)?' primary':'');chip.textContent=code;c.appendChild(chip)})}
 document.getElementById('selectAll').onclick=()=>{state.selected=[...result().codes];renderLookup()};document.getElementById('primaryOnly').onclick=()=>{const r=result();state.selected=[...(r.primary?.length?r.primary:[r.codes[0]])];renderLookup()};
 function buttons(id,values,key){const c=document.getElementById(id);values.forEach(v=>{const b=document.createElement('button');b.className='circle';b.textContent=v;b.onclick=()=>{c.querySelectorAll('button').forEach(x=>x.classList.remove('active'));b.classList.add('active');state[key]=v};c.appendChild(b)})}
 buttons('vpw',[1,2,3,4,5],'vpw');buttons('pocDuration',[30,45,60,90],'pocDuration');buttons('vpm',[1,2,3,4,5],'vpm');buttons('monthlyDuration',[30,45,60,90],'monthlyDuration');buttons('months',[1,2,3,4,5,6,7,8,9,10,11,12],'months');
