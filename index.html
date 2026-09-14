@@ -1,38 +1,756 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Therapy Authorization Toolkit</title>
   <style>
-    :root{--ink:#172033;--muted:#667085;--line:#dbe3ec;--surface:#fff;--soft:#f5f7fb;--brand:#5546d8;--brand-dark:#4132bc;--brand-soft:#efedff;--success:#19704d;--success-soft:#e9f7ef;--danger:#bf3f4b;--radius:18px;--shadow:0 18px 45px rgba(23,32,51,.14);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);}
-    *{box-sizing:border-box} body{margin:0;min-height:100vh;background:linear-gradient(140deg,#dce8f7,#eae9fb 50%,#d9eee9);font-size:15px;line-height:1.45}.app{width:min(950px,calc(100% - 30px));margin:32px auto;background:var(--surface);border:1px solid rgba(255,255,255,.8);border-radius:24px;box-shadow:var(--shadow);overflow:hidden}.accent{height:7px;background:linear-gradient(90deg,#5546d8,#7b6cf1 55%,#4eb98c)}header{padding:29px 34px 25px;background:linear-gradient(135deg,#f8f8ff,#f1f5ff);border-bottom:1px solid var(--line)}.title{display:flex;gap:14px;align-items:flex-start}.mark{width:42px;height:42px;display:grid;place-items:center;flex:none;color:#fff;background:var(--brand);border-radius:13px;font-size:21px;box-shadow:0 8px 18px rgba(85,70,216,.25)}h1{margin:0;font-size:24px;letter-spacing:-.035em;line-height:1.1}.subtitle{margin:6px 0 0;color:var(--muted);font-size:14px}.tabs{display:flex;gap:5px;margin-top:23px;padding:4px;background:#e7eaf2;border:1px solid #d8dee9;border-radius:12px;width:max-content}.tabs button,.seg button{border:0;background:transparent;color:#536174;font:inherit;font-weight:700;cursor:pointer;border-radius:9px;transition:.16s ease}.tabs button{padding:8px 13px}.tabs button.active,.seg button.active{background:#fff;color:var(--brand-dark);box-shadow:0 2px 7px rgba(28,38,60,.1)}main{padding:28px 34px 34px}.hidden{display:none!important}.context{position:relative;overflow:hidden;padding:19px 21px;border:1px solid #d6d3ff;border-radius:var(--radius);background:linear-gradient(135deg,#f0efff,#fafaff)}.context:after{content:"";position:absolute;width:120px;height:120px;right:-45px;top:-62px;border:25px solid rgba(85,70,216,.07);border-radius:50%}.eyebrow{color:var(--brand-dark);font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}.context-title{margin-top:4px;font-size:21px;font-weight:800;letter-spacing:-.025em}.context-detail{margin-top:2px;color:var(--muted);font-weight:650}.code-chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:13px}.chip{padding:5px 9px;border:1px solid #c8c4ff;border-radius:8px;background:#fff;color:#332a9b;font-weight:800;font-variant-numeric:tabular-nums}.chip.primary{border-color:#badfc9;background:var(--success-soft);color:var(--success)}.mode-tabs{display:flex;gap:5px;max-width:650px;margin:21px 0 16px;padding:4px;border:1px solid var(--line);border-radius:12px;background:var(--soft)}.mode-tabs button{flex:1;padding:9px 8px;border:0;border-radius:8px;background:transparent;color:#576477;font:inherit;font-size:13px;font-weight:750;cursor:pointer}.mode-tabs button.active{background:var(--brand);color:#fff;box-shadow:0 5px 12px rgba(85,70,216,.22)}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.step{padding:16px;border:1px solid var(--line);border-radius:15px;background:var(--soft)}.label{display:block;margin-bottom:9px;font-size:13px;font-weight:800;color:#3a475a}.label small{font-weight:650;color:var(--muted)}input,select{width:100%;min-height:42px;padding:9px 11px;border:1px solid #c9d3e0;border-radius:9px;background:#fff;color:var(--ink);font:inherit;outline:none}input:focus,select:focus{border-color:#8278ec;box-shadow:0 0 0 3px rgba(85,70,216,.12)}input.invalid{border-color:var(--danger)}.error{min-height:17px;margin-top:5px;color:var(--danger);font-size:12px;font-weight:650}.number-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}.number-grid.months{grid-template-columns:repeat(6,1fr)}.num{height:39px;border:1px solid #cbd5e2;border-radius:10px;background:#fff;color:#425067;font:inherit;font-weight:800;cursor:pointer}.num.active{border-color:var(--brand);background:var(--brand);color:#fff;box-shadow:0 5px 12px rgba(85,70,216,.22)}.button-row{display:flex;justify-content:flex-end;margin-top:16px}.primary-button{min-height:42px;padding:8px 18px;border:0;border-radius:10px;background:var(--brand);color:#fff;font:inherit;font-weight:800;cursor:pointer;box-shadow:0 6px 14px rgba(85,70,216,.24)}.primary-button:hover{background:var(--brand-dark)}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin-top:16px}.stat{padding:13px 14px;border:1px solid #dce3ee;border-radius:13px;background:#fff}.stat span{display:block;color:var(--muted);font-size:12px;font-weight:700}.stat strong{display:block;margin-top:2px;font-size:23px;letter-spacing:-.04em}.lookup-layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:18px}.lookup-controls{display:grid;gap:12px}.seg{display:flex;gap:4px;padding:4px;background:#e7eaf2;border:1px solid #d8dee9;border-radius:10px}.seg button{flex:1;padding:8px 7px;font-size:13px}.choice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.choice{min-height:40px;padding:7px 9px;border:1px solid #ccd5e0;border-radius:10px;background:#fff;color:#445269;text-align:left;font:inherit;font-size:13px;font-weight:750;cursor:pointer}.choice.active{border-color:var(--brand);background:var(--brand-soft);color:var(--brand-dark)}.lookup-result{padding:18px;border:1px solid #d7d5ff;border-radius:var(--radius);background:linear-gradient(145deg,#f4f3ff,#fcfcff)}.lookup-result h2{margin:4px 0 2px;font-size:19px;letter-spacing:-.025em}.unit{display:flex;justify-content:space-between;align-items:center;margin:17px 0 11px;padding:9px 10px;border-radius:9px;background:#fff;color:var(--muted);font-size:13px;font-weight:700}.unit strong{color:var(--ink)}.codes{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.code{position:relative;min-height:55px;padding:7px;border:1px solid #cdd5e1;border-radius:10px;background:#fff;color:#3d4a5c;font:inherit;font-size:16px;font-weight:850;cursor:pointer}.code.primary{border-color:#add4bd;background:var(--success-soft);color:var(--success)}.code.selected{outline:2px solid var(--brand);outline-offset:1px}.badge{display:block;margin-top:2px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em}.actions{display:flex;gap:7px;margin-top:12px}.secondary{padding:7px 8px;border:1px solid #cbd5e2;border-radius:8px;background:#fff;color:#516076;font:inherit;font-size:12px;font-weight:750;cursor:pointer}.note{margin:13px 0 0;color:var(--muted);font-size:12px}.lookup-panel> .step{margin-bottom:12px}footer{padding:14px;text-align:center;border-top:1px solid var(--line);background:#f7f9fc;color:#68758a;font-size:12px;font-weight:650}@media(max-width:720px){.app{width:100%;margin:0;border:0;border-radius:0;min-height:100vh}.accent{height:5px}header,main{padding:22px 17px}.lookup-layout{grid-template-columns:1fr}.tabs{width:100%}.tabs button{flex:1;padding:8px 6px}.mode-tabs{overflow-x:auto}.mode-tabs button{min-width:max-content}.grid{grid-template-columns:1fr}.stats{grid-template-columns:1fr}.number-grid.months{grid-template-columns:repeat(4,1fr)}h1{font-size:22px}}@media(max-width:390px){.number-grid{gap:5px}.num{height:36px}.choice-grid{grid-template-columns:1fr}}
+    :root {
+      --ink: #172033;
+      --muted: #667085;
+      --line: #dbe3ec;
+      --surface: #fff;
+      --soft: #f5f7fb;
+      --brand: #5546d8;
+      --brand-dark: #4132bc;
+      --brand-soft: #efedff;
+      --success: #19704d;
+      --success-soft: #e9f7ef;
+      --danger: #bf3f4b;
+      --radius: 18px;
+      --shadow: 0 18px 45px rgba(23, 32, 51, .14);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      color: var(--ink);
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(140deg, #dce8f7, #eae9fb 50%, #d9eee9);
+      font-size: 15px;
+      line-height: 1.45
+    }
+
+    .app {
+      width: min(950px, calc(100% - 30px));
+      margin: 32px auto;
+      background: var(--surface);
+      border: 1px solid rgba(255, 255, 255, .8);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      overflow: hidden
+    }
+
+    .accent {
+      height: 7px;
+      background: linear-gradient(90deg, #5546d8, #7b6cf1 55%, #4eb98c)
+    }
+
+    header {
+      padding: 29px 34px 25px;
+      background: linear-gradient(135deg, #f8f8ff, #f1f5ff);
+      border-bottom: 1px solid var(--line)
+    }
+
+    .title {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start
+    }
+
+    .mark {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      flex: none;
+      color: #fff;
+      background: var(--brand);
+      border-radius: 13px;
+      font-size: 21px;
+      box-shadow: 0 8px 18px rgba(85, 70, 216, .25)
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 24px;
+      letter-spacing: -.035em;
+      line-height: 1.1
+    }
+
+    .subtitle {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 14px
+    }
+
+    .tabs {
+      display: flex;
+      gap: 5px;
+      margin-top: 23px;
+      padding: 4px;
+      background: #e7eaf2;
+      border: 1px solid #d8dee9;
+      border-radius: 12px;
+      width: max-content
+    }
+
+    .tabs button,
+    .seg button {
+      border: 0;
+      background: transparent;
+      color: #536174;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      border-radius: 9px;
+      transition: .16s ease
+    }
+
+    .tabs button {
+      padding: 8px 13px
+    }
+
+    .tabs button.active,
+    .seg button.active {
+      background: #fff;
+      color: var(--brand-dark);
+      box-shadow: 0 2px 7px rgba(28, 38, 60, .1)
+    }
+
+    main {
+      padding: 28px 34px 34px
+    }
+
+    .hidden {
+      display: none !important
+    }
+
+    .context {
+      position: relative;
+      overflow: hidden;
+      padding: 19px 21px;
+      border: 1px solid #d6d3ff;
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, #f0efff, #fafaff)
+    }
+
+    .context:after {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      right: -45px;
+      top: -62px;
+      border: 25px solid rgba(85, 70, 216, .07);
+      border-radius: 50%
+    }
+
+    .eyebrow {
+      color: var(--brand-dark);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase
+    }
+
+    .context-title {
+      margin-top: 4px;
+      font-size: 21px;
+      font-weight: 800;
+      letter-spacing: -.025em
+    }
+
+    .context-detail {
+      margin-top: 2px;
+      color: var(--muted);
+      font-weight: 650
+    }
+
+    .code-chips {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+      margin-top: 13px
+    }
+
+    .chip {
+      padding: 5px 9px;
+      border: 1px solid #c8c4ff;
+      border-radius: 8px;
+      background: #fff;
+      color: #332a9b;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums
+    }
+
+    .chip.primary {
+      border-color: #badfc9;
+      background: var(--success-soft);
+      color: var(--success)
+    }
+
+    .mode-tabs {
+      display: flex;
+      gap: 5px;
+      max-width: 650px;
+      margin: 21px 0 16px;
+      padding: 4px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--soft)
+    }
+
+    .mode-tabs button {
+      flex: 1;
+      padding: 9px 8px;
+      border: 0;
+      border-radius: 8px;
+      background: transparent;
+      color: #576477;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 750;
+      cursor: pointer
+    }
+
+    .mode-tabs button.active {
+      background: var(--brand);
+      color: #fff;
+      box-shadow: 0 5px 12px rgba(85, 70, 216, .22)
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px
+    }
+
+    .step {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: var(--soft)
+    }
+
+    .label {
+      display: block;
+      margin-bottom: 9px;
+      font-size: 13px;
+      font-weight: 800;
+      color: #3a475a
+    }
+
+    .label small {
+      font-weight: 650;
+      color: var(--muted)
+    }
+
+    input,
+    select {
+      width: 100%;
+      min-height: 42px;
+      padding: 9px 11px;
+      border: 1px solid #c9d3e0;
+      border-radius: 9px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+      outline: none
+    }
+
+    input:focus,
+    select:focus {
+      border-color: #8278ec;
+      box-shadow: 0 0 0 3px rgba(85, 70, 216, .12)
+    }
+
+    input.invalid {
+      border-color: var(--danger)
+    }
+
+    .error {
+      min-height: 17px;
+      margin-top: 5px;
+      color: var(--danger);
+      font-size: 12px;
+      font-weight: 650
+    }
+
+    .number-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 7px
+    }
+
+    .number-grid.months {
+      grid-template-columns: repeat(6, 1fr)
+    }
+
+    .num {
+      height: 39px;
+      border: 1px solid #cbd5e2;
+      border-radius: 10px;
+      background: #fff;
+      color: #425067;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer
+    }
+
+    .num.active {
+      border-color: var(--brand);
+      background: var(--brand);
+      color: #fff;
+      box-shadow: 0 5px 12px rgba(85, 70, 216, .22)
+    }
+
+    .button-row {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 16px
+    }
+
+    .primary-button {
+      min-height: 42px;
+      padding: 8px 18px;
+      border: 0;
+      border-radius: 10px;
+      background: var(--brand);
+      color: #fff;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 6px 14px rgba(85, 70, 216, .24)
+    }
+
+    .primary-button:hover {
+      background: var(--brand-dark)
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 11px;
+      margin-top: 16px
+    }
+
+    .stat {
+      padding: 13px 14px;
+      border: 1px solid #dce3ee;
+      border-radius: 13px;
+      background: #fff
+    }
+
+    .stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700
+    }
+
+    .stat strong {
+      display: block;
+      margin-top: 2px;
+      font-size: 23px;
+      letter-spacing: -.04em
+    }
+
+    .lookup-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 300px;
+      gap: 18px
+    }
+
+    .lookup-controls {
+      display: grid;
+      gap: 12px
+    }
+
+    .seg {
+      display: flex;
+      gap: 4px;
+      padding: 4px;
+      background: #e7eaf2;
+      border: 1px solid #d8dee9;
+      border-radius: 10px
+    }
+
+    .seg button {
+      flex: 1;
+      padding: 8px 7px;
+      font-size: 13px
+    }
+
+    .choice-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px
+    }
+
+    .choice {
+      min-height: 40px;
+      padding: 7px 9px;
+      border: 1px solid #ccd5e0;
+      border-radius: 10px;
+      background: #fff;
+      color: #445269;
+      text-align: left;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 750;
+      cursor: pointer
+    }
+
+    .choice.active {
+      border-color: var(--brand);
+      background: var(--brand-soft);
+      color: var(--brand-dark)
+    }
+
+    .lookup-result {
+      padding: 18px;
+      border: 1px solid #d7d5ff;
+      border-radius: var(--radius);
+      background: linear-gradient(145deg, #f4f3ff, #fcfcff)
+    }
+
+    .lookup-result h2 {
+      margin: 4px 0 2px;
+      font-size: 19px;
+      letter-spacing: -.025em
+    }
+
+    .unit {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 17px 0 11px;
+      padding: 9px 10px;
+      border-radius: 9px;
+      background: #fff;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700
+    }
+
+    .unit strong {
+      color: var(--ink)
+    }
+
+    .codes {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px
+    }
+
+    .code {
+      position: relative;
+      min-height: 55px;
+      padding: 7px;
+      border: 1px solid #cdd5e1;
+      border-radius: 10px;
+      background: #fff;
+      color: #3d4a5c;
+      font: inherit;
+      font-size: 16px;
+      font-weight: 850;
+      cursor: pointer
+    }
+
+    .code.primary {
+      border-color: #add4bd;
+      background: var(--success-soft);
+      color: var(--success)
+    }
+
+    .code.selected {
+      outline: 2px solid var(--brand);
+      outline-offset: 1px
+    }
+
+    .badge {
+      display: block;
+      margin-top: 2px;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .06em
+    }
+
+    .actions {
+      display: flex;
+      gap: 7px;
+      margin-top: 12px
+    }
+
+    .secondary {
+      padding: 7px 8px;
+      border: 1px solid #cbd5e2;
+      border-radius: 8px;
+      background: #fff;
+      color: #516076;
+      font: inherit;
+      font-size: 12px;
+      font-weight: 750;
+      cursor: pointer
+    }
+
+    .note {
+      margin: 13px 0 0;
+      color: var(--muted);
+      font-size: 12px
+    }
+
+    .lookup-panel>.step {
+      margin-bottom: 12px
+    }
+
+    footer {
+      padding: 14px;
+      text-align: center;
+      border-top: 1px solid var(--line);
+      background: #f7f9fc;
+      color: #68758a;
+      font-size: 12px;
+      font-weight: 650
+    }
+
+    @media(max-width:720px) {
+      .app {
+        width: 100%;
+        margin: 0;
+        border: 0;
+        border-radius: 0;
+        min-height: 100vh
+      }
+
+      .accent {
+        height: 5px
+      }
+
+      header,
+      main {
+        padding: 22px 17px
+      }
+
+      .lookup-layout {
+        grid-template-columns: 1fr
+      }
+
+      .tabs {
+        width: 100%
+      }
+
+      .tabs button {
+        flex: 1;
+        padding: 8px 6px
+      }
+
+      .mode-tabs {
+        overflow-x: auto
+      }
+
+      .mode-tabs button {
+        min-width: max-content
+      }
+
+      .grid {
+        grid-template-columns: 1fr
+      }
+
+      .stats {
+        grid-template-columns: 1fr
+      }
+
+      .number-grid.months {
+        grid-template-columns: repeat(4, 1fr)
+      }
+
+      h1 {
+        font-size: 22px
+      }
+    }
+
+    @media(max-width:390px) {
+      .number-grid {
+        gap: 5px
+      }
+
+      .num {
+        height: 36px
+      }
+
+      .choice-grid {
+        grid-template-columns: 1fr
+      }
+    }
   </style>
 </head>
+
 <body>
-  <div class="app"><div class="accent"></div><header><div class="title"><div class="mark">✦</div><div><h1>Therapy Authorization Toolkit</h1><p class="subtitle">Authorization calculations, CPT lookup, and unit references in one focused workspace.</p></div></div><nav class="tabs" aria-label="Tools"><button class="active" data-tool="calculator">Authorization Calculator</button><button data-tool="lookup">CPT &amp; Units Lookup</button></nav></header>
-  <main>
-    <section id="calculatorPanel"><div class="context"><div class="eyebrow">Current CPT selection</div><div id="sharedMeta" class="context-title">PT · EVALS</div><div id="sharedDetail" class="context-detail">1 Unit</div><div id="sharedCodes" class="code-chips"></div></div>
-      <div class="mode-tabs"><button class="active" data-mode="poc">Units from POC date range</button><button data-mode="units">Visits from units</button><button data-mode="monthly">Monthly visits</button></div>
-      <div id="pocMode"><div class="grid"><div class="step"><label class="label">Start date <small>(MMDDYY)</small></label><input id="startDate" inputmode="numeric" placeholder="MMDDYY"><div id="startDateErr" class="error"></div></div><div class="step"><label class="label">End date <small>(MMDDYY)</small></label><input id="endDate" inputmode="numeric" placeholder="MMDDYY"><div id="endDateErr" class="error"></div></div></div><div class="grid" style="margin-top:14px"><div class="step"><div class="label">Visits per week</div><div id="vpw" class="number-grid"></div></div><div class="step"><div class="label">Duration per visit</div><div id="pocDuration" class="number-grid"></div></div></div><div class="button-row"><button id="calcPoc" class="primary-button">Calculate authorization</button></div><div id="pocResults" class="hidden"><div class="stats"><div class="stat"><span>Total weeks</span><strong id="weeksOut">—</strong></div><div class="stat"><span>Total visits</span><strong id="visitsOut">—</strong></div><div class="stat"><span>Total units</span><strong id="unitsOut">—</strong></div></div></div></div>
-      <div id="unitsMode" class="hidden"><div class="grid"><div class="step"><label class="label">Number of units given</label><input id="unitsGiven" type="number" min="0" placeholder="e.g. 36"></div><div class="step"><label class="label">Duration per visit</label><select id="unitsDuration"><option value="">Select duration</option><option>30</option><option>45</option><option>60</option><option>90</option></select></div></div><div class="button-row"><button id="calcUnits" class="primary-button">Calculate visits</button></div><div id="unitsResults" class="hidden"><div class="stats"><div class="stat"><span>Total visits</span><strong id="visitsFromUnits">—</strong></div></div></div></div>
-      <div id="monthlyMode" class="hidden"><div class="step"><div class="label">Months</div><div id="months" class="number-grid months"></div></div><div class="grid" style="margin-top:14px"><div class="step"><div class="label">Visits per month</div><div id="vpm" class="number-grid"></div></div><div class="step"><div class="label">Duration per visit</div><div id="monthlyDuration" class="number-grid"></div></div></div><div class="button-row"><button id="calcMonthly" class="primary-button">Calculate authorization</button></div><div id="monthlyResults" class="hidden"><div class="stats"><div class="stat"><span>Total months</span><strong id="monthsOut">—</strong></div><div class="stat"><span>Total visits</span><strong id="monthlyVisitsOut">—</strong></div><div class="stat"><span>Total units</span><strong id="monthlyUnitsOut">—</strong></div></div></div></div>
-    </section>
-    <section id="lookupPanel" class="hidden lookup-panel"><div class="lookup-layout"><div class="lookup-controls"><div class="step"><div class="label">Lookup category</div><div id="lookupMode" class="seg"><button class="active" data-value="therapy">Therapy</button><button data-value="dme">DME / Orthotic</button></div></div><div id="therapyLookup"><div class="step"><div class="label">Therapy discipline</div><div id="discipline" class="seg"><button class="active" data-value="PT">PT</button><button data-value="OT">OT</button><button data-value="ST">ST</button></div></div><div class="step"><div class="label">Service type</div><div id="therapyChoices" class="choice-grid"></div></div></div><div id="dmeLookup" class="hidden"><div class="step"><div class="label">DME / Orthotic service</div><div id="dmeChoices" class="choice-grid"></div></div></div><div id="durationWrap" class="step hidden"><div class="label">Treatment duration</div><div id="lookupDuration" class="seg"><button class="active" data-value="30">30 minutes</button><button data-value="60">60 minutes</button></div></div></div><aside class="lookup-result"><div class="eyebrow">Applicable codes</div><h2 id="lookupTitle"></h2><div class="unit"><span>Number of units</span><strong id="lookupUnits"></strong></div><div id="codeChoices" class="codes"></div><div class="actions"><button id="selectAll" class="secondary">Select all</button><button id="primaryOnly" class="secondary">Primary only</button></div><p class="note">Choose the CPT codes you want carried into the calculator.</p></aside></div></section>
-  </main><footer>Created by Luis R.</footer></div>
+  <div class="app">
+    <div class="accent"></div>
+    <header>
+      <div class="title">
+        <div class="mark">✦</div>
+        <div>
+          <h1>Therapy Authorization Toolkit</h1>
+          <p class="subtitle">Authorization calculations, CPT lookup, and unit references in one focused workspace.</p>
+        </div>
+      </div>
+      <nav class="tabs" aria-label="Tools"><button class="active" data-tool="calculator">Authorization
+          Calculator</button><button data-tool="lookup">CPT &amp; Units Lookup</button></nav>
+    </header>
+    <main>
+      <section id="calculatorPanel">
+        <div class="context">
+          <div class="eyebrow">Current CPT selection</div>
+          <div id="sharedMeta" class="context-title">PT · EVALS</div>
+          <div id="sharedDetail" class="context-detail">1 Unit</div>
+          <div id="sharedCodes" class="code-chips"></div>
+        </div>
+        <div class="mode-tabs"><button class="active" data-mode="poc">Units from POC date range</button><button
+            data-mode="units">Visits from units</button><button data-mode="monthly">Monthly visits</button></div>
+        <div id="pocMode">
+          <div class="grid">
+            <div class="step"><label class="label">Start date <small>(MMDDYY)</small></label><input id="startDate"
+                inputmode="numeric" placeholder="MMDDYY">
+              <div id="startDateErr" class="error"></div>
+            </div>
+            <div class="step"><label class="label">End date <small>(MMDDYY)</small></label><input id="endDate"
+                inputmode="numeric" placeholder="MMDDYY">
+              <div id="endDateErr" class="error"></div>
+            </div>
+          </div>
+          <div class="grid" style="margin-top:14px">
+            <div class="step">
+              <div class="label">Visits per week</div>
+              <div id="vpw" class="number-grid"></div>
+            </div>
+            <div class="step">
+              <div class="label">Duration per visit</div>
+              <div id="pocDuration" class="number-grid"></div>
+            </div>
+          </div>
+          <div class="button-row"><button id="calcPoc" class="primary-button">Calculate authorization</button></div>
+          <div id="pocResults" class="hidden">
+            <div class="stats">
+              <div class="stat"><span>Total weeks</span><strong id="weeksOut">—</strong></div>
+              <div class="stat"><span>Total visits</span><strong id="visitsOut">—</strong></div>
+              <div class="stat"><span>Total units</span><strong id="unitsOut">—</strong></div>
+            </div>
+          </div>
+        </div>
+        <div id="unitsMode" class="hidden">
+          <div class="grid">
+            <div class="step"><label class="label">Number of units given</label><input id="unitsGiven" type="number"
+                min="0" placeholder="e.g. 36"></div>
+            <div class="step"><label class="label">Duration per visit</label><select id="unitsDuration">
+                <option value="">Select duration</option>
+                <option>30</option>
+                <option>45</option>
+                <option>60</option>
+                <option>90</option>
+              </select></div>
+          </div>
+          <div class="button-row"><button id="calcUnits" class="primary-button">Calculate visits</button></div>
+          <div id="unitsResults" class="hidden">
+            <div class="stats">
+              <div class="stat"><span>Total visits</span><strong id="visitsFromUnits">—</strong></div>
+            </div>
+          </div>
+        </div>
+        <div id="monthlyMode" class="hidden">
+          <div class="step">
+            <div class="label">Months</div>
+            <div id="months" class="number-grid months"></div>
+          </div>
+          <div class="grid" style="margin-top:14px">
+            <div class="step">
+              <div class="label">Visits per month</div>
+              <div id="vpm" class="number-grid"></div>
+            </div>
+            <div class="step">
+              <div class="label">Duration per visit</div>
+              <div id="monthlyDuration" class="number-grid"></div>
+            </div>
+          </div>
+          <div class="button-row"><button id="calcMonthly" class="primary-button">Calculate authorization</button></div>
+          <div id="monthlyResults" class="hidden">
+            <div class="stats">
+              <div class="stat"><span>Total months</span><strong id="monthsOut">—</strong></div>
+              <div class="stat"><span>Total visits</span><strong id="monthlyVisitsOut">—</strong></div>
+              <div class="stat"><span>Total units</span><strong id="monthlyUnitsOut">—</strong></div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="lookupPanel" class="hidden lookup-panel">
+        <div class="lookup-layout">
+          <div class="lookup-controls">
+            <div class="step">
+              <div class="label">Lookup category</div>
+              <div id="lookupMode" class="seg"><button class="active" data-value="therapy">Therapy</button><button
+                  data-value="dme">DME / Orthotic</button></div>
+            </div>
+            <div id="therapyLookup">
+              <div class="step">
+                <div class="label">Therapy discipline</div>
+                <div id="discipline" class="seg"><button class="active" data-value="PT">PT</button><button
+                    data-value="OT">OT</button><button data-value="ST">ST</button></div>
+              </div>
+              <div class="step">
+                <div class="label">Service type</div>
+                <div id="therapyChoices" class="choice-grid"></div>
+              </div>
+            </div>
+            <div id="dmeLookup" class="hidden">
+              <div class="step">
+                <div class="label">DME / Orthotic service</div>
+                <div id="dmeChoices" class="choice-grid"></div>
+              </div>
+            </div>
+            <div id="durationWrap" class="step hidden">
+              <div class="label">Treatment duration</div>
+              <div id="lookupDuration" class="seg"><button class="active" data-value="30">30 minutes</button><button
+                  data-value="60">60 minutes</button></div>
+            </div>
+          </div>
+          <aside class="lookup-result">
+            <div class="eyebrow">Applicable codes</div>
+            <h2 id="lookupTitle"></h2>
+            <div class="unit"><span>Number of units</span><strong id="lookupUnits"></strong></div>
+            <div id="codeChoices" class="codes"></div>
+            <div class="actions"><button id="selectAll" class="secondary">Select all</button><button id="primaryOnly"
+                class="secondary">Primary only</button></div>
+            <p class="note">Choose the CPT codes you want carried into the calculator.</p>
+          </aside>
+        </div>
+      </section>
+    </main>
+    <footer>Created by Luis R.</footer>
+  </div>
   <script>
-  const therapy={PT:{EVALS:{codes:['97161','97162','97163'],primary:['97163'],type:'eval'},TX:{codes:['97110','97530','97124','97140','97112','97116'],primary:['97110'],type:'tx'}},OT:{EVALS:{codes:['97165','97166','97167'],primary:['97167'],type:'eval'},TX:{codes:['97530','97110','97533','97140','97112'],primary:['97530'],type:'tx'},'SELF-CARE / HOME MANAGEMENT TRAINING':{codes:['97535'],type:'tx'}},ST:{EVALS:{codes:['92521','92522','92523'],primary:['92523'],type:'eval'},TX:{codes:['92507','92526','92609'],primary:['92507'],type:'tx'},'FEEDING EVAL':{codes:['92610'],type:'eval'},'FEEDING TX':{codes:['92526'],type:'tx'},'AAC EVALS':{codes:['92607'],type:'eval'},'AAC TX':{codes:['92609','92507'],type:'tx'},'COGNITIVE SKILL DEVELOPMENT EVAL':{codes:['96125'],type:'eval'},'COGNITIVE SKILL DEVELOPMENT TX':{codes:['97130'],type:'tx'}}};
-  const dme={SPLINTS:{codes:['97760','97165','97166','97167'],primary:['97760'],units:2},'SPLINTS TX':{codes:['97530'],units:2},'COMPRESSION GARMENT':{codes:['A4467','97165','97166','97167'],primary:['A4467'],units:1},'COMPRESSION GARMENT TX':{codes:['97530'],units:1},'WHEELCHAIR EVALS':{codes:['97161','97162','97163','97165','97166','97167']},'WHEELCHAIR MANAGEMENT':{codes:['97542']},'SERIAL CASTING - PT EVAL':{codes:['97760','97763','97032','97163'],primary:['97760','97763','97032']},'SERIAL CASTING - PT TX':{codes:['97110','97530','97124','97140','97112','97116']},'SERIAL CASTING - OT EVAL':{codes:['29065','97165','97166','97167'],primary:['29065']}};
-  const state={tool:'calculator',mode:'poc',lookup:'therapy',discipline:'PT',service:'EVALS',dme:'SPLINTS',duration:30,selected:[]}; const $=id=>document.getElementById(id);
-  document.querySelectorAll('[data-tool]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-tool]').forEach(x=>x.classList.toggle('active',x===b));$('calculatorPanel').classList.toggle('hidden',b.dataset.tool!=='calculator');$('lookupPanel').classList.toggle('hidden',b.dataset.tool!=='lookup')});
-  document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-mode]').forEach(x=>x.classList.toggle('active',x===b));state.mode=b.dataset.mode;['poc','units','monthly'].forEach(x=>$(x+'Mode').classList.toggle('hidden',x!==state.mode))});
-  function segmented(id,fn){$(id).querySelectorAll('button').forEach(b=>b.onclick=()=>{$(id).querySelectorAll('button').forEach(x=>x.classList.toggle('active',x===b));fn(b.dataset.value)})} segmented('lookupMode',v=>{state.lookup=v;state.selected=[];$('therapyLookup').classList.toggle('hidden',v!=='therapy');$('dmeLookup').classList.toggle('hidden',v!=='dme');render()}); segmented('discipline',v=>{state.discipline=v;const keys=Object.keys(therapy[v]);state.service=keys.includes(state.service)?state.service:keys[0];state.selected=[];renderServices();render()}); segmented('lookupDuration',v=>{state.duration=+v;render()});
-  function makeChoice(label,active,handler){const b=document.createElement('button');b.className='choice'+(active?' active':'');b.textContent=label;b.onclick=handler;return b}function renderServices(){const c=$('therapyChoices');c.innerHTML='';Object.keys(therapy[state.discipline]).forEach(k=>c.append(makeChoice(k,k===state.service,()=>{state.service=k;state.selected=[];renderServices();render()})))}function renderDme(){const c=$('dmeChoices');c.innerHTML='';Object.keys(dme).forEach(k=>c.append(makeChoice(k,k===state.dme,()=>{state.dme=k;state.selected=[];renderDme();render()})))}
-  function current(){if(state.lookup==='therapy'){const r=therapy[state.discipline][state.service];const units=r.type==='eval'?1:state.discipline==='ST'?1:state.duration===60?4:2;return {...r,title:state.discipline+' · '+state.service,units}}const r=dme[state.dme];return {...r,title:state.dme}}
-  function render(){const r=current(),isTx=state.lookup==='therapy'&&r.type==='tx';$('durationWrap').classList.toggle('hidden',!isTx);state.selected=state.selected.filter(x=>r.codes.includes(x));if(!state.selected.length)state.selected=[...(r.primary?.length?r.primary:[r.codes[0]])];$('lookupTitle').textContent=r.title;$('lookupUnits').textContent=r.units?r.units+' '+(r.units===1?'Unit':'Units'):'Not specified';const c=$('codeChoices');c.innerHTML='';r.codes.forEach(code=>{const primary=(r.primary||[]).includes(code),selected=state.selected.includes(code),b=document.createElement('button');b.className='code'+(primary?' primary':'')+(selected?' selected':'');b.innerHTML=code+(primary?'<span class="badge">Primary</span>':'');b.onclick=()=>{state.selected=selected?state.selected.filter(x=>x!==code):[...state.selected,code];render()};c.append(b)});$('sharedMeta').textContent=r.title;$('sharedDetail').textContent=(isTx?state.duration+' Minutes · ':'')+(r.units?r.units+' '+(r.units===1?'Unit':'Units'):'Units not specified');const chips=$('sharedCodes');chips.innerHTML='';state.selected.forEach(code=>{const e=document.createElement('span');e.className='chip'+((r.primary||[]).includes(code)?' primary':'');e.textContent=code;chips.append(e)})}
-  $('selectAll').onclick=()=>{state.selected=[...current().codes];render()};$('primaryOnly').onclick=()=>{const r=current();state.selected=[...(r.primary?.length?r.primary:[r.codes[0]])];render()};
-  function numberButtons(id,values,key){const c=$(id);values.forEach(v=>{const b=document.createElement('button');b.className='num';b.textContent=v;b.onclick=()=>{c.querySelectorAll('button').forEach(x=>x.classList.toggle('active',x===b));state[key]=v};c.append(b)})}numberButtons('vpw',[1,2,3,4,5],'vpw');numberButtons('pocDuration',[30,45,60,90],'pocDuration');numberButtons('vpm',[1,2,3,4,5],'vpm');numberButtons('monthlyDuration',[30,45,60,90],'monthlyDuration');numberButtons('months',[1,2,3,4,5,6,7,8,9,10,11,12],'months');
-  function mask(el){el.oninput=()=>{const d=el.value.replace(/\D/g,'').slice(0,6);el.value=d.length<=2?d:d.length<=4?d.slice(0,2)+'/'+d.slice(2):d.slice(0,2)+'/'+d.slice(2,4)+'/'+d.slice(4)}}mask($('startDate'));mask($('endDate'));function dateFrom(v){const d=v.replace(/\D/g,'');if(d.length!==6)return null;const m=+d.slice(0,2),day=+d.slice(2,4),yy=+d.slice(4),y=yy<=49?2000+yy:1900+yy;if(m<1||m>12||day<1||day>new Date(y,m,0).getDate())return null;return new Date(y,m-1,day)}
-  $('calcPoc').onclick=()=>{const s=dateFrom($('startDate').value),e=dateFrom($('endDate').value);$('startDate').classList.toggle('invalid',!s);$('endDate').classList.toggle('invalid',!e||(s&&e<=s));$('startDateErr').textContent=s?'':'Enter a valid MMDDYY date.';$('endDateErr').textContent=!e?'Enter a valid MMDDYY date.':s&&e<=s?'End date must be after start date.':'';if(!s||!e||e<=s||!state.vpw||!state.pocDuration)return;const weeks=Math.round((e-s)/604800000),visits=Math.max(1,Math.round(weeks*state.vpw));$('weeksOut').textContent=weeks;$('visitsOut').textContent=visits;$('unitsOut').textContent=Math.round(visits*(state.pocDuration/15));$('pocResults').classList.remove('hidden')};$('calcUnits').onclick=()=>{const u=+$('unitsGiven').value,d=+$('unitsDuration').value;if(!u||!d)return;$('visitsFromUnits').textContent=Math.round(u/(d/15));$('unitsResults').classList.remove('hidden')};$('calcMonthly').onclick=()=>{if(!state.months||!state.vpm||!state.monthlyDuration)return;const v=state.months*state.vpm;$('monthsOut').textContent=state.months;$('monthlyVisitsOut').textContent=v;$('monthlyUnitsOut').textContent=Math.round(v*(state.monthlyDuration/15));$('monthlyResults').classList.remove('hidden')};renderServices();renderDme();render();
+    const therapy = {PT: {EVALS: {codes: ['97161', '97162', '97163'], primary: ['97163'], type: 'eval'}, TX: {codes: ['97110', '97530', '97124', '97140', '97112', '97116'], primary: ['97110'], type: 'tx'}}, OT: {EVALS: {codes: ['97165', '97166', '97167'], primary: ['97167'], type: 'eval'}, TX: {codes: ['97530', '97110', '97533', '97140', '97112'], primary: ['97530'], type: 'tx'}, 'SELF-CARE / HOME MANAGEMENT TRAINING': {codes: ['97535'], type: 'tx'}}, ST: {EVALS: {codes: ['92521', '92522', '92523'], primary: ['92523'], type: 'eval'}, TX: {codes: ['92507', '92526', '92609'], primary: ['92507'], type: 'tx'}, 'FEEDING EVAL': {codes: ['92610'], type: 'eval'}, 'FEEDING TX': {codes: ['92526'], type: 'tx'}, 'AAC EVALS': {codes: ['92607'], type: 'eval'}, 'AAC TX': {codes: ['92609', '92507'], type: 'tx'}, 'COGNITIVE SKILL DEVELOPMENT EVAL': {codes: ['96125'], type: 'eval'}, 'COGNITIVE SKILL DEVELOPMENT TX': {codes: ['97130'], type: 'tx'}}};
+    const dme = {SPLINTS: {codes: ['97760', '97165', '97166', '97167'], primary: ['97760'], units: 2}, 'SPLINTS TX': {codes: ['97530'], units: 2}, 'COMPRESSION GARMENT': {codes: ['A4467', '97165', '97166', '97167'], primary: ['A4467'], units: 1}, 'COMPRESSION GARMENT TX': {codes: ['97530'], units: 1}, 'WHEELCHAIR EVALS': {codes: ['97161', '97162', '97163', '97165', '97166', '97167']}, 'WHEELCHAIR MANAGEMENT': {codes: ['97542']}, 'SERIAL CASTING - PT EVAL': {codes: ['97760', '97763', '97032', '97163'], primary: ['97760', '97763', '97032']}, 'SERIAL CASTING - PT TX': {codes: ['97110', '97530', '97124', '97140', '97112', '97116']}, 'SERIAL CASTING - OT EVAL': {codes: ['29065', '97165', '97166', '97167'], primary: ['29065']}};
+    const state = {tool: 'calculator', mode: 'poc', lookup: 'therapy', discipline: 'PT', service: 'EVALS', dme: 'SPLINTS', duration: 30, selected: []}; const $ = id => document.getElementById(id);
+    document.querySelectorAll('[data-tool]').forEach(b => b.onclick = () => {document.querySelectorAll('[data-tool]').forEach(x => x.classList.toggle('active', x === b)); $('calculatorPanel').classList.toggle('hidden', b.dataset.tool !== 'calculator'); $('lookupPanel').classList.toggle('hidden', b.dataset.tool !== 'lookup')});
+    document.querySelectorAll('[data-mode]').forEach(b => b.onclick = () => {document.querySelectorAll('[data-mode]').forEach(x => x.classList.toggle('active', x === b)); state.mode = b.dataset.mode;['poc', 'units', 'monthly'].forEach(x => $(x + 'Mode').classList.toggle('hidden', x !== state.mode))});
+    function segmented(id, fn) {$(id).querySelectorAll('button').forEach(b => b.onclick = () => {$(id).querySelectorAll('button').forEach(x => x.classList.toggle('active', x === b)); fn(b.dataset.value)})} segmented('lookupMode', v => {state.lookup = v; state.selected = []; $('therapyLookup').classList.toggle('hidden', v !== 'therapy'); $('dmeLookup').classList.toggle('hidden', v !== 'dme'); render()}); segmented('discipline', v => {state.discipline = v; const keys = Object.keys(therapy[v]); state.service = keys.includes(state.service) ? state.service : keys[0]; state.selected = []; renderServices(); render()}); segmented('lookupDuration', v => {state.duration = +v; render()});
+    function makeChoice(label, active, handler) {const b = document.createElement('button'); b.className = 'choice' + (active ? ' active' : ''); b.textContent = label; b.onclick = handler; return b} function renderServices() {const c = $('therapyChoices'); c.innerHTML = ''; Object.keys(therapy[state.discipline]).forEach(k => c.append(makeChoice(k, k === state.service, () => {state.service = k; state.selected = []; renderServices(); render()})))} function renderDme() {const c = $('dmeChoices'); c.innerHTML = ''; Object.keys(dme).forEach(k => c.append(makeChoice(k, k === state.dme, () => {state.dme = k; state.selected = []; renderDme(); render()})))}
+    function current() {if (state.lookup === 'therapy') {const r = therapy[state.discipline][state.service]; const units = r.type === 'eval' ? 1 : state.discipline === 'ST' ? 1 : state.duration === 60 ? 4 : 2; return {...r, title: state.discipline + ' · ' + state.service, units}} const r = dme[state.dme]; return {...r, title: state.dme}}
+    function render() {const r = current(), isTx = state.lookup === 'therapy' && r.type === 'tx'; $('durationWrap').classList.toggle('hidden', !isTx); state.selected = state.selected.filter(x => r.codes.includes(x)); if (!state.selected.length) state.selected = [...(r.primary?.length ? r.primary : [r.codes[0]])]; $('lookupTitle').textContent = r.title; $('lookupUnits').textContent = r.units ? r.units + ' ' + (r.units === 1 ? 'Unit' : 'Units') : 'Not specified'; const c = $('codeChoices'); c.innerHTML = ''; r.codes.forEach(code => {const primary = (r.primary || []).includes(code), selected = state.selected.includes(code), b = document.createElement('button'); b.className = 'code' + (primary ? ' primary' : '') + (selected ? ' selected' : ''); b.innerHTML = code + (primary ? '<span class="badge">Primary</span>' : ''); b.onclick = () => {state.selected = selected ? state.selected.filter(x => x !== code) : [...state.selected, code]; render()}; c.append(b)}); $('sharedMeta').textContent = r.title; $('sharedDetail').textContent = (isTx ? state.duration + ' Minutes · ' : '') + (r.units ? r.units + ' ' + (r.units === 1 ? 'Unit' : 'Units') : 'Units not specified'); const chips = $('sharedCodes'); chips.innerHTML = ''; state.selected.forEach(code => {const e = document.createElement('span'); e.className = 'chip' + ((r.primary || []).includes(code) ? ' primary' : ''); e.textContent = code; chips.append(e)})}
+    $('selectAll').onclick = () => {state.selected = [...current().codes]; render()}; $('primaryOnly').onclick = () => {const r = current(); state.selected = [...(r.primary?.length ? r.primary : [r.codes[0]])]; render()};
+    function numberButtons(id, values, key) {const c = $(id); values.forEach(v => {const b = document.createElement('button'); b.className = 'num'; b.textContent = v; b.onclick = () => {c.querySelectorAll('button').forEach(x => x.classList.toggle('active', x === b)); state[key] = v}; c.append(b)})} numberButtons('vpw', [1, 2, 3, 4, 5], 'vpw'); numberButtons('pocDuration', [30, 45, 60, 90], 'pocDuration'); numberButtons('vpm', [1, 2, 3, 4, 5], 'vpm'); numberButtons('monthlyDuration', [30, 45, 60, 90], 'monthlyDuration'); numberButtons('months', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], 'months');
+    function mask(el) {el.oninput = () => {const d = el.value.replace(/\D/g, '').slice(0, 6); el.value = d.length <= 2 ? d : d.length <= 4 ? d.slice(0, 2) + '/' + d.slice(2) : d.slice(0, 2) + '/' + d.slice(2, 4) + '/' + d.slice(4)}} mask($('startDate')); mask($('endDate')); function dateFrom(v) {const d = v.replace(/\D/g, ''); if (d.length !== 6) return null; const m = +d.slice(0, 2), day = +d.slice(2, 4), yy = +d.slice(4), y = yy <= 49 ? 2000 + yy : 1900 + yy; if (m < 1 || m > 12 || day < 1 || day > new Date(y, m, 0).getDate()) return null; return new Date(y, m - 1, day)}
+    $('calcPoc').onclick = () => {const s = dateFrom($('startDate').value), e = dateFrom($('endDate').value); $('startDate').classList.toggle('invalid', !s); $('endDate').classList.toggle('invalid', !e || (s && e <= s)); $('startDateErr').textContent = s ? '' : 'Enter a valid MMDDYY date.'; $('endDateErr').textContent = !e ? 'Enter a valid MMDDYY date.' : s && e <= s ? 'End date must be after start date.' : ''; if (!s || !e || e <= s || !state.vpw || !state.pocDuration) return; const weeks = Math.round((e - s) / 604800000), visits = Math.max(1, Math.round(weeks * state.vpw)); $('weeksOut').textContent = weeks; $('visitsOut').textContent = visits; $('unitsOut').textContent = Math.round(visits * (state.pocDuration / 15)); $('pocResults').classList.remove('hidden')}; $('calcUnits').onclick = () => {const u = +$('unitsGiven').value, d = +$('unitsDuration').value; if (!u || !d) return; $('visitsFromUnits').textContent = Math.round(u / (d / 15)); $('unitsResults').classList.remove('hidden')}; $('calcMonthly').onclick = () => {if (!state.months || !state.vpm || !state.monthlyDuration) return; const v = state.months * state.vpm; $('monthsOut').textContent = state.months; $('monthlyVisitsOut').textContent = v; $('monthlyUnitsOut').textContent = Math.round(v * (state.monthlyDuration / 15)); $('monthlyResults').classList.remove('hidden')}; renderServices(); renderDme(); render();
   </script>
-</body></html>
+</body>
+
+</html>
